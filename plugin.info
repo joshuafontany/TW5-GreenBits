@@ -1,0 +1,12 @@
+{
+  "version": "0.1.0",
+  "type": "application/json",
+  "title": "$:/plugins/joshuafontany/greenbits",
+  "plugin-type": "plugin",
+  "name": "Tiddlywiki GreenBits API v1",
+  "modified": "20200818000000000",
+  "description": "An GreenBits API v1 Client for Tiddlywiki on Bob",
+  "dependents": ["tiddlywiki/consent-banner"],
+  "created": "202008818000000000",
+  "list": "readme.md usage license.md"
+}
