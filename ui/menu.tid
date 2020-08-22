@@ -1,0 +1,48 @@
+title: $:/plugins/joshuafontany/greenbits/ui/menu
+
+\define .greenbits-menu-item()
+<$list variable="visible_product" filter="[[$:/data/greenbits/$(location_id)$/products]getindex[$(active_product)$/product_type_id]match[$(product_id)$]]">
+<$transclude tiddler="$:/data/greenbits/$(location_id)$/products" index="$(active_product)$/name" />
+</$list>
+\end
+\define .greenbits-menu()
+<$list variable="product_index" filter="[[$:/config/greenbits/location/$(location_id)$/product_mapping]indexes[/$(product)$]]">
+<$set name="product_name" value={{{[<product_index>addprefix[/$(product)$/]addsuffix[/name]] }}}>
+<h3><$transclude tiddler="$:/config/greenbits/location/$(location_id)$/product_mapping" index=<<product_name>> /></h3>
+</$set>
+<$set name="product_id_index" value={{{ [<product_index>addprefix[/$(product)$/]addsuffix[/id]] }}}>
+<$set name="product_id" filter="[[$:/config/greenbits/location/$(location_id)$/product_mapping]getindex<product_id_index>]">
+<$list variable="active_product" filter="[[$:/data/greenbits/$(location_id)$/products]indexes[/products]addprefix[/products/]]">
+
+<<.greenbits-menu-item>>
+</$list>
+</$set>
+</$set>
+\end
+
+<div class="greenbits-menu">
+<div class="greenbits-menu-header">
+<div class="greenbits-menu-header-item">
+
+!! <span>Locations</span>
+
+{{$:/plugins/joshuafontany/greenbits/ui/menu/location}}
+</div>
+<div class="greenbits-menu-header-item">
+
+!! <span>Products</span>
+
+{{$:/plugins/joshuafontany/greenbits/ui/menu/product}}
+</div>
+</div>
+<div class="greenbits-menu-body">
+<$set name="location" value={{$:/config/greenbits/ui/menu/location}} >
+<$set name="location_id" value={{{ [<location>has[location_id]get[location_id]]}}} >
+<$set name="product" value={{$:/config/greenbits/ui/menu/product}} >
+
+<<.greenbits-menu>>
+</$set>
+</$set>
+</$set>
+</div>
+</div>

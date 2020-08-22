@@ -1,0 +1,9 @@
+title: $:/plugins/joshuafontany/greenbits/ui/menu/product
+
+<$select tiddler='$:/config/greenbits/ui/menu/product'>
+<optgroup label='Product Type'>
+<$list variable="cat" filter="[list[$:/config/greenbits/ui/menu/product!!list]]" >
+<option value=<<cat>> ><$text text=<<cat>> /></option>
+</$list>
+</optgroup>
+</$select>

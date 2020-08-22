@@ -1,0 +1,34 @@
+tags: $:/tags/Stylesheet
+title: $:/plugins/joshuafontany/greenbits/styles/menu
+
+.greenbits-menu-header {
+  margin-right: .5em;
+  margin-bottom: .5em;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  column-gap: .5em;
+  row-gap: 2px;
+  line-height: 1.2em;
+}
+
+.greenbits-menu-header h2 {
+    margin-top: 0em;
+    margin-bottom: .25em;
+}
+
+.greenbits-menu-header h2 span {
+    padding-right: 0.25em;
+    border-bottom: 2px dotted <<colour primary>>;
+}
+
+.greenbits-menu-header p {
+    margin: 0;
+}
+
+.greenbits-menu-header p select option {
+    color: <<color primary>>;
+}
+
+.greenbits-menu-header p select option:disabled {
+    color: <<color muted-foreground>>;
+}

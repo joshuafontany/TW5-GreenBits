@@ -1,0 +1,16 @@
+title: $:/plugins/joshuafontany/greenbits/ui/menu/location
+
+<$select tiddler='$:/config/greenbits/ui/menu/location'>
+<optgroup label='Available Menus'>
+<$list filter="[list[$:/config/greenbits/ui/menu/location!!list]has[location_id]]">
+<option value=<<currentTiddler>> ><$text text=<<currentTiddler>> /></option>
+</$list>
+</optgroup>
+<$list variable="coming_soon" filter="[list[$:/config/greenbits/ui/menu/location!!list]!has[location_id]limit[1]]">
+<optgroup label='Coming Soon'>
+<$list filter="[list[$:/config/greenbits/ui/menu/location!!list]!has[location_id]]">
+<option value=<<currentTiddler>> disabled><$text text=<<currentTiddler>> /></option>
+</$list>
+</optgroup>
+</$list>
+</$select>
