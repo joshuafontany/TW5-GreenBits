@@ -1,21 +1,41 @@
 title: $:/plugins/joshuafontany/greenbits/ui/menu
 
+\define .greenbits-menu-item-details()
+<div class="greenbits-menu-item-details">
+<$transclude tiddler="$:/config/greenbits/product/details"/>
+</div>
+\end
+\define .hide-details()
+<$action-setfield $tiddler=<<active_product>> $field="details" />
+\end
+\define .show-details()
+<$action-setfield $tiddler=<<active_product>> $field="details" $value="show"/>
+\end
 \define .greenbits-menu-item()
-<$list variable="visible_product" filter="[[$:/data/greenbits/$(location_id)$/products]getindex[$(active_product)$/product_type_id]match[$(product_id)$]]">
-<$transclude tiddler="$:/data/greenbits/$(location_id)$/products" index="$(active_product)$/name" />
+<$list variable="show_details" filter="[<active_product>has[details]search:details[show]]">
+<$button class="tc-btn-invisible tc-tiddlylink greenbits-memu-item-show" actions=<<.hide-details>> ><$text text={{$(active_product)$!!name}} /></$button>
+<<.greenbits-menu-item-details>>
+</$list>
+<$list variable="hide_details" filter="[<active_product>!search:details[show]]">
+<$button class="tc-btn-invisible tc-tiddlylink greenbits-memu-item-hide" actions=<<.show-details>> ><$text text={{$(active_product)$!!name}} /></$button>
 </$list>
 \end
 \define .greenbits-menu()
 <$list variable="product_index" filter="[[$:/config/greenbits/location/$(location_id)$/product_mapping]indexes[/$(product)$]]">
-<$set name="product_name" value={{{[<product_index>addprefix[/$(product)$/]addsuffix[/name]] }}}>
-<h3><$transclude tiddler="$:/config/greenbits/location/$(location_id)$/product_mapping" index=<<product_name>> /></h3>
-</$set>
 <$set name="product_id_index" value={{{ [<product_index>addprefix[/$(product)$/]addsuffix[/id]] }}}>
+<$set name="product_name_index" value={{{[<product_index>addprefix[/$(product)$/]addsuffix[/name]] }}}>
 <$set name="product_id" filter="[[$:/config/greenbits/location/$(location_id)$/product_mapping]getindex<product_id_index>]">
-<$list variable="active_product" filter="[[$:/data/greenbits/$(location_id)$/products]indexes[/products]addprefix[/products/]]">
-
+<$list variable="show_category" filter="[prefix[$:/data/greenbits/location/$(location_id)$/products/]search:product_type_id<product_id>count[]compare:number:gt[0]]">
+<div class="greenbits-menu-header-item"><h3><span><$transclude tiddler="$:/config/greenbits/location/$(location_id)$/product_mapping" index=<<product_name_index>> /></span></h3></div>
+<div clas="greenbits-menu-items">
+<$list variable="active_product" filter="[prefix[$:/data/greenbits/location/$(location_id)$/products/]search:product_type_id<product_id>nsortcs[name]]">
+<div class="greenbits-menu-item">
 <<.greenbits-menu-item>>
+</div>
 </$list>
+</div>
+</$list>
+</$set>
 </$set>
 </$set>
 \end

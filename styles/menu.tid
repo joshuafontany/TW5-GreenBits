@@ -1,25 +1,43 @@
 tags: $:/tags/Stylesheet
 title: $:/plugins/joshuafontany/greenbits/styles/menu
 
+.toggle-day-night svg {
+    width: 40px !important;
+    height: 40px !important;
+}
+
 .greenbits-menu-header {
   display: flex;
   flex-flow: row wrap;
 }
 
 .greenbits-menu-header-item {
-  margin-right: .5em;
-  margin-bottom: .5em;
+  margin: 0em;
+  padding-top: 0.2em;
+  padding-right: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 0.2em;
   line-height: 1.2em;
+  background: <<colour table-header-background>>;
 }
 
 .greenbits-menu-header-item h2 {
     margin-top: 0em;
-    margin-bottom: .25em;
+    margin-bottom: .2em;
+    font-weight: bold;
+    color: <<colour primary>>;
 }
 
 .greenbits-menu-header-item h2 span {
     padding-right: 0.25em;
     border-bottom: 2px dotted <<colour primary>>;
+}
+
+.greenbits-menu-header-item h3 {
+    margin-top: 0em;
+    margin-bottom: .2em;
+    font-weight: bold;
+    color: <<colour external-link-foreground>>;
 }
 
 .greenbits-menu-header-item p {
@@ -32,4 +50,26 @@ title: $:/plugins/joshuafontany/greenbits/styles/menu
 
 .greenbits-menu-header-item p select option:disabled {
     color: <<color muted-foreground>>;
+}
+
+.greenbits-menu-item {
+    padding-left: 0.5em;
+    padding-bottom: 0.2em;
+}
+
+.greenbits-menu-item:nth-child(even) {
+    background: <<colour table-header-background>>;
+}
+
+.greenbits-menu-item:nth-child(odd) {
+    background: <<colour table-footer-background>>;
+}
+
+.greenbits-menu-item-details {
+    padding-left: 1em;
+    padding-bottom: 0.2em;
+}
+
+.greenbits-memu-item-show {
+    font-size: 150%;
 }

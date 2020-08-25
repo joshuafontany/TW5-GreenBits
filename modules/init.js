@@ -47,9 +47,11 @@ exports.startup = async function(callback) {
 				if(checkStatus(response) == true){
 					console.log(response.status+": "+url);
 					const json = await response.json();
-					const tagText = "$:/tags/greenbits/"+dataTitle.split('/')[dataTitle.split('/').length]
+					var tagArr = dataTitle.split('/');
+					var tag = tagArr[tagArr.length-1];
+					var tagText = "$:/tags/greenbits/"+tag;
 					//console.log(json);
-					if(!!json.companies) {
+					if(tag === 'location') {
 						for (let index = 0; index < json.companies.length; index++) {
 							const c = json.companies[index];
 							if(!!c.users) {
@@ -57,19 +59,27 @@ exports.startup = async function(callback) {
 							}
 							var jsonTitle = dataTitle+"/"+c.id
 							var tiddler = $tw.wiki.getTiddler(jsonTitle);
-							if(tiddler && !tiddler.fields.type == "application/json") tiddler.fields.type = "application/json";
-							var newTiddler = new $tw.Tiddler(tiddler,{title: jsonTitle, tags: tagText, text:JSON.stringify(c, null, 2)});
-							$tw.wiki.saveTiddler(newTiddler);
+							var modificationFields = $tw.wiki.getModificationFields();
+							var newTiddler = new $tw.Tiddler(tiddler,{title: jsonTitle, type: "application/json", tags: tagText, text:JSON.stringify(c, null, 2)}, modificationFields);
+							$tw.wiki.addTiddler(newTiddler);
+							//console.log("Added: "+ newTiddler.fields.title);
 						}
 					}else{
 						var tiddlers = $tw.wiki.filterTiddlers("[tag["+tagText+"]]");
 						for(var t=0;t<tiddlers.length; t++) {
 							$tw.wiki.deleteTiddler(tiddlers[t]);
-							console.log("Deleted: "+ tiddlers[t]);
+							//console.log("Deleted: "+ tiddlers[t]);
 						}
-						var jsonTitle = dataTitle+"/"+c.id
-						var newTiddler = new $tw.Tiddler({title: jsonTitle, type: "application/json", tags: tagText, text:JSON.stringify(c, null, 2)});
-						$tw.wiki.saveTiddler(newTiddler);
+						if (json[tag] && json[tag].length >= 1) {
+							var respArr = json[tag];
+							for (let index = 0; index < respArr.length; index++) {
+								var item = respArr[index];
+								var jsonTitle = dataTitle+"/"+item.id;
+								var newTiddler = new $tw.Tiddler({title: jsonTitle, type: "application/json", tags: tagText, name: item.name, product_type_id: item.product_type_id, text:JSON.stringify(item, null, 2)});
+								$tw.wiki.addTiddler(newTiddler);
+								//console.log("Added: "+ newTiddler.fields.title);
+							}
+						}
 					}
 				} else {
 					console.log(response.status+": "+url);
@@ -94,6 +104,7 @@ exports.startup = async function(callback) {
 		}	
 
 		const updateLocation = async(locId) => {
+			var url = "", dataTitle = "";
 			//call the GreenBits API
 			$tw.greenbits.headers = {
 				"Content-Type": "application/json",
@@ -125,7 +136,7 @@ exports.startup = async function(callback) {
 
 		if($tw.greenbits.update){
 			var locations = [];
-			locations[0] = process.env.GREENBITS_COMPANY_IDS.split(';')[2];
+			locations = process.env.GREENBITS_COMPANY_IDS.split(';');
 			//first, update the user's locations info
 			updateCompanies(locations[0])
 			//then, update all the locations
