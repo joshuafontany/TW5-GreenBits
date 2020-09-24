@@ -24,13 +24,12 @@ title: $:/plugins/joshuafontany/greenbits/styles/menu
 .greenbits-menu-header-item h2 {
     margin-top: 0em;
     margin-bottom: .2em;
-    font-weight: bold;
-    color: <<colour primary>>;
 }
 
 .greenbits-menu-header-item h2 span {
     padding-right: 0.25em;
-    border-bottom: 2px dotted <<colour primary>>;
+    font-weight: bold;
+    border-bottom: 2px dotted <<colour tiddler-title-foreground>>;
 }
 
 .greenbits-menu-header-item h3 {
